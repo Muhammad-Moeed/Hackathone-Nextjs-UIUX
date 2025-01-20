@@ -1,9 +1,7 @@
-'use client'
+'use client';
 import { client } from '../../sanity/lib/client';
-
-const query = '*[_type == "products"]';
-client.fetch(query).then(console.log).catch(console.error);
-
+import { featuredProducts, ourProducts, categories } from '../../sanity/lib/queries';
+import React, { useEffect, useState } from 'react';
 
 interface Product {
   _id: string;
@@ -11,63 +9,87 @@ interface Product {
   price: number;
   priceWithoutDiscount?: number;
   badge?: string;
-  image?: {
-    asset: {
-      _ref: string;
-    };
-  };
-  category?: {
-    _ref: string;
-  };
-  description?: string;
-  inventory?: number;
+  imageUrl?: string;
   tags?: string[];
 }
 
+export default function Products() {
+  const [featured, setFeatured] = useState<Product[]>([]); // Define the type for the array
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [categoryProducts, setCategoryProducts] = useState<Product[]>([]);
 
-export async function getStaticProps() {
-  console.log('Fetching products...');  // Check if function is being called
-  try {
-    const products: Product[] = await client.fetch(query);
-    console.log('Fetched products:', products);  // Check fetched data
-    return {
-      props: {
-        products,
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching products:', error);  // Check if error occurs
-    return {
-      props: {
-        products: [],
-      },
-    };
-  }
-}
+  useEffect(() => {
+    // Fetching featured products
+    client.fetch(featuredProducts).then((data) => {
+      setFeatured(data);
+    }).catch((error) => console.error("Error fetching featured products:", error));
 
+    // Fetching all products
+    client.fetch(ourProducts).then((data) => {
+      setAllProducts(data);
+    }).catch((error) => console.error("Error fetching all products:", error));
 
-
-export default function Products({ products }: { products: Product[] }) {
-  if (!products || products.length === 0) {
-    return <div>No products available</div>;
-  }
+    // Fetching category products
+    client.fetch(categories).then((data) => {
+      setCategoryProducts(data);
+    }).catch((error) => console.error("Error fetching category products:", error));
+  }, []);
 
   return (
-    <div>
-      <h1>Products</h1>
-      {products.map((product) => (
-        <div key={product._id}>
-          <h2>{product.title}</h2>
-          <p>Price: ${product.price}</p>
-          {product.image && (
-            <img
-              src={`https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${product.image.asset._ref}`}
-              alt={product.title}
-              width={200}
-            />
-          )}
-        </div>
-      ))} 
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Featured Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {featured.map((product) => (
+          <div key={product._id} className="p-4 rounded-lg shadow-lg flex flex-col items-center">
+            {product.imageUrl && (
+              <div className="flex justify-center w-full mb-2">
+                <img src={product.imageUrl} alt={product.title} width={200} />
+              </div>
+            )}
+            <h2 className="text-lg font-semibold text-center mb-2">{product.title}</h2>
+            <p className="text-gray-500 text-center">Price: ${product.price}</p>
+            <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4 w-full">
+              Add to Cart
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <h1 className="text-2xl font-bold mt-8 mb-4">All Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {allProducts.map((product) => (
+          <div key={product._id} className="p-4 rounded-lg shadow-lg flex flex-col items-center">
+            {product.imageUrl && (
+              <div className="flex justify-center w-full mb-2">
+                <img src={product.imageUrl} alt={product.title} width={200} />
+              </div>
+            )}
+            <h2 className="text-lg font-semibold text-center mb-2">{product.title}</h2>
+            <p className="text-gray-500 text-center">Price: ${product.price}</p>
+            <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4 w-full">
+              Add to Cart
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <h1 className="text-2xl font-bold mt-8 mb-4">Category Products</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {categoryProducts.map((product) => (
+          <div key={product._id} className="p-4 rounded-lg shadow-lg flex flex-col items-center">
+            {product.imageUrl && (
+              <div className="flex justify-center w-full mb-2">
+                <img src={product.imageUrl} alt={product.title} width={200} />
+              </div>
+            )}
+            <h2 className="text-lg font-semibold text-center mb-2">{product.title}</h2>
+            <p className="text-gray-500 text-center">Price: ${product.price}</p>
+            <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4 w-full">
+              Add to Cart
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
