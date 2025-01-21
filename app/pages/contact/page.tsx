@@ -2,7 +2,7 @@ import React from "react";
 import { Poppins } from "next/font/google";
 import { FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import { GoClockFill } from "react-icons/go";
-import ContactSection from "../components/contactSection";
+import ContactSection from "../../components/contactSection";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["500", "600"] });
 

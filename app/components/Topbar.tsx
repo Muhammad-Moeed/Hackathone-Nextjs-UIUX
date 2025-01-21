@@ -19,7 +19,7 @@ const Topbar = () => {
             <span>Eng</span>
             <ChevronDown />
           </li>
-          <Link href="/faq"><li className="cursor-pointer">FAQs</li></Link>
+          <Link href="/pages/faq"><li className="cursor-pointer">FAQs</li></Link>
           <li className="flex items-center space-x-2 cursor-pointer">
             <FaExclamationCircle className="text-white" />
             <span>Need Help</span>

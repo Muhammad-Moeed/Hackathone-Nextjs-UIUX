@@ -21,13 +21,13 @@ const Navbar = () => {
           <Link href={"#"} className="text-[14px] font-medium">
             Shop
           </Link>
-          <Link href="/product" className="text-[14px] font-medium">
+          <Link href="/pages/product" className="text-[14px] font-medium">
             Product
           </Link>
           <Link href={"#"} className="text-[14px] font-medium">
             Pages
           </Link>
-          <Link href="/about" className="text-[14px] font-medium">
+          <Link href="/pages/about" className="text-[14px] font-medium">
             About
           </Link>
         </div>

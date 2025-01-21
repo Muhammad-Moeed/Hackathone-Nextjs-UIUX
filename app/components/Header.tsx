@@ -19,7 +19,7 @@ const Header = () => {
         </div>
 
         {/* Cart Button */}
-        <Link href="/cart">
+        <Link href="/pages/cart">
           <button className="flex items-center space-x-2 bg-white py-2 px-4 rounded-md mr-3">
             <FaShoppingCart className="text-xl" />
             <span className="hidden sm:inline">Cart</span>

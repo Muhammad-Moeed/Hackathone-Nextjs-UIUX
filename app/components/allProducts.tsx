@@ -2,6 +2,7 @@
 import { client } from '../../sanity/lib/client';
 import { featuredProducts, ourProducts, categories } from '../../sanity/lib/queries';
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';  // Link component for navigation
 
 interface Product {
   _id: string;
@@ -14,7 +15,7 @@ interface Product {
 }
 
 export default function Products() {
-  const [featured, setFeatured] = useState<Product[]>([]); // Define the type for the array
+  const [featured, setFeatured] = useState<Product[]>([]);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [categoryProducts, setCategoryProducts] = useState<Product[]>([]);
 
@@ -48,9 +49,13 @@ export default function Products() {
             )}
             <h2 className="text-lg font-semibold text-center mb-2">{product.title}</h2>
             <p className="text-gray-500 text-center">Price: ${product.price}</p>
-            <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4 w-full">
-              Add to Cart
-            </button>
+            {/* Link to product details page */}
+            <Link href={`/pages/product/${product._id}`}>
+
+              <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4 w-full">
+                View Details
+              </button>
+            </Link>
           </div>
         ))}
       </div>
@@ -66,9 +71,12 @@ export default function Products() {
             )}
             <h2 className="text-lg font-semibold text-center mb-2">{product.title}</h2>
             <p className="text-gray-500 text-center">Price: ${product.price}</p>
-            <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4 w-full">
-              Add to Cart
-            </button>
+            {/* Link to product details page */}
+            <Link href={`/pages/product/${product._id}`}>
+              <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4 w-full">
+                View Details
+              </button>
+            </Link>
           </div>
         ))}
       </div>
@@ -84,9 +92,12 @@ export default function Products() {
             )}
             <h2 className="text-lg font-semibold text-center mb-2">{product.title}</h2>
             <p className="text-gray-500 text-center">Price: ${product.price}</p>
-            <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4 w-full">
-              Add to Cart
-            </button>
+            {/* Link to product details page */}
+            <Link href={`/pages/product/${product._id}`}>
+              <button className="bg-orange-500 text-white py-2 px-4 rounded mt-4 w-full">
+                View Details
+              </button>
+            </Link>
           </div>
         ))}
       </div>
